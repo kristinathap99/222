@@ -1,21 +1,21 @@
 // Questions array  
 const questions = [  
   {  
-      question: "Question goes here",  
+      question: "What is the capital city of China ?",  
       answers: [  
-          { text: "Answer 1", correct: false },  
-          { text: "Answer 2", correct: true },  
-          { text: "Answer 3", correct: false },  
-          { text: "Answer 4", correct: false }  
+          { text: "Kathmandu", correct: false },  
+          { text: "Beijing", correct: true },  
+          { text: "Hong Kong", correct: false },  
+          { text: "New Delhi", correct: false }  
       ]  
   },  
   {  
-      question: "Next question goes here",  
+      question: "What is te captial city of Canada ?",  
       answers: [  
-          { text: "Answer 1", correct: true },  
-          { text: "Answer 2", correct: false },  
-          { text: "Answer 3", correct: false },  
-          { text: "Answer 4", correct: false }  
+          { text: "Ottawa", correct: true },  
+          { text: "Toronoto", correct: false },  
+          { text: "Montreal", correct: false },  
+          { text: "Sydney", correct: false }  
       ]  
   },  
   // Add more questions as needed  
