@@ -17,8 +17,35 @@ const questions = [
           { text: "Montreal", correct: false },  
           { text: "Sydney", correct: false }  
       ]  
-  },  
-  // Add more questions as needed  
+  },
+  {  
+        question: "What is the longest river in the world?",  
+        answers: [  
+            { text: "Amazon", correct:false  },  
+            { text: "Nile", correct: true },  
+            { text: "Congo", correct: false },  
+            { text: "Amur", correct: false }  
+        ]  
+    },
+    {  
+        question: "Who discovered gravity?",  
+        answers: [  
+            { text: "Edmond Halley", correct: false },  
+            { text: "David Hume", correct: false },  
+            { text: "Isaac Newton", correct: true },  
+            { text: "Albert Einstein", correct: false }  
+        ]  
+    },
+    {  
+        question: "What is the tallest mountain in the world?",  
+        answers: [  
+            { text: "Mt.Everest", correct: true },  
+            { text: "K2", correct: false },  
+            { text: "Lhotse", correct: false },  
+            { text: "Mont blanc", correct: false }  
+        ]  
+    },
+   
 ];  
 
 // DOM elements  
