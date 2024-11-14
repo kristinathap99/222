@@ -18,7 +18,7 @@
             font-family: Arial, sans-serif;
         }
 
-        /* Splash screen styling */
+        
         .intro-ss {
             position: fixed;
             z-index: 1;
@@ -27,7 +27,7 @@
             width: 100%;
             height: 100vh;
             background-color: #161616;
-            transition: 0.5s ease-in-out; /* Slower transition for sliding out */
+            transition: 0.5s ease-in-out; 
         }
 
         .logo-header-ss {
@@ -45,7 +45,7 @@
         .logo-ss {
             display: inline-block;
             opacity: 0;
-            transition: opacity 0.8s ease-in-out; /* Smooth opacity transition */
+            transition: opacity 0.8s ease-in-out; 
         }
 
         .logo-ss.active {
@@ -134,7 +134,7 @@
 </head>
 
 <body>
-    <!-- Splash screen -->
+    
     <div class="intro-ss">
         <h1 class="logo-header-ss">
             <span class="logo-ss">Quiztacular</span>
@@ -142,12 +142,12 @@
         </h1>
     </div>
 
-    <!-- Header -->
+    
     <header class="header">
         <h4>Quiztacular Showdown Quiz</h4>
     </header>
 
-    <!-- Main content -->
+    
     <div class="container">
         <div class="hero">
             <h1>Welcome to My Quiztacular Showdown Quiz</h1>
@@ -181,12 +181,12 @@
 
             header.style.display = 'none';
 
-            // Show each logo span with a delay
+            
             setTimeout(() => {
                 logoSpan.forEach((span, idx) => {
                     setTimeout(() => {
                         span.classList.add('active');
-                    }, (idx + 1) * 1000); // Slower delay for smooth fade-in
+                    }, (idx + 1) * 1000); 
                 });
 
                 setTimeout(() => {
@@ -194,19 +194,16 @@
                         setTimeout(() => {
                             span.classList.remove('active');
                             span.classList.add('fade');
-                        }, (idx + 1) * 250); // Slower fade-out for smoother transition
+                        }, (idx + 1) * 250); 
                     });
-                }, 4000); // Longer delay for dramatic effect
-
-                // Hide splash screen
+                }, 4000); 
+                
                 setTimeout(() => {
-                    intro.style.top = '-100vh'; // Hide the splash screen
-                }, 5000); // Slower movement of splash screen
-
-                // Show header after splash screen disappears
+                    intro.style.top = '-100vh'; 
+                }, 5000); 
                 setTimeout(() => {
-                    header.style.display = 'flex'; // Show the header after the splash screen disappears
-                }, 5200); // Delayed appearance of header
+                    header.style.display = 'flex'; 
+                }, 5200); 
 
             });
         });
