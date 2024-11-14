@@ -1,0 +1,220 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiztacular Showdown Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Sour Gummy", sans-serif;
+        }
+
+        body {
+            background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+            font-family: Arial, sans-serif;
+        }
+
+        
+        .intro-ss {
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #161616;
+            transition: 0.5s ease-in-out; 
+        }
+
+        .logo-header-ss {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+        }
+
+        .logo-ss {
+            display: inline-block;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out; 
+        }
+
+        .logo-ss.active {
+            opacity: 1;
+        }
+
+        .logo-ss.fade {
+            opacity: 0;
+        }
+
+        header {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            background-color: #100c44;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            margin-bottom: 180px;
+            display: none;
+        }
+
+        header h4 {
+            font-size: 1.6rem;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+            color: #f4f4f4;
+        }
+
+        .hero {
+            background-color: #0d0947;
+            padding: 50px 20px;
+            text-align: left;
+        }
+
+        .hero h1 {
+            margin: 0;
+            font-size: 3em;
+        }
+
+        .hero p {
+            font-size: 1.2em;
+        }
+
+        .cta {
+            margin-top: 20px;
+        }
+
+        .zerozero{
+            color: #a1c4fd;
+
+
+        }
+
+        .features {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+
+        .feature {
+            background-color: rgb(16, 2, 49);
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 30%;
+            text-align: left;
+        }
+
+        .feature h3 {
+            margin-top: 0;
+        }
+        .zerozero{
+            color: rgb(197, 197, 203);
+            size: 80px;
+            color: #000;
+            width: 100px;
+        }
+    .zerozero:hover{
+        cursor: pointer;
+        color: #a1c4fd;
+    }
+
+    </style>
+</head>
+
+<body>
+    
+    <div class="intro-ss">
+        <h1 class="logo-header-ss">
+            <span class="logo-ss">Quiztacular</span>
+            <span class="logo-ss"> Showdown</span>
+        </h1>
+    </div>
+
+    
+    <header class="header">
+        <h4>Quiztacular Showdown Quiz</h4>
+    </header>
+
+    
+    <div class="container">
+        <div class="hero">
+            <h1>Welcome to My Quiztacular Showdown Quiz</h1>
+            <p>Ready to challenge your mind and have fun?</p>
+            
+                <div class="zerozero"> 
+                    <a href="typpe.html">Get Started</a>
+                </div>
+               
+           
+        </div>
+        <div class="features">
+            <div class="feature">
+                <h3>Feature One</h3>
+                <p>A quiz app designed to test your knowledge on various topics. Engage and challenge your mind in a fun way!</p>
+            </div>
+            <div class="feature">
+                <h3>Feature Two</h3>
+                <p>Select from a variety of topics like General Knowledge, Science, Entertainment, and more!</p>
+            </div>
+            <div class="feature">
+                <h3>Feature Three</h3>
+                <p>Track your progress and challenge your friends to see who’s the ultimate quiz master!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let intro = document.querySelector('.intro-ss');
+        let logoSpan = document.querySelectorAll('.logo-ss');
+        let header = document.querySelector('.header');
+
+        window.addEventListener('DOMContentLoaded', () => {
+
+            header.style.display = 'none';
+
+            
+            setTimeout(() => {
+                logoSpan.forEach((span, idx) => {
+                    setTimeout(() => {
+                        span.classList.add('active');
+                    }, (idx + 1) * 1000); 
+                });
+
+                setTimeout(() => {
+                    logoSpan.forEach((span, idx) => {
+                        setTimeout(() => {
+                            span.classList.remove('active');
+                            span.classList.add('fade');
+                        }, (idx + 1) * 250); 
+                    });
+                }, 4000); 
+                
+                setTimeout(() => {
+                    intro.style.top = '-100vh'; 
+                }, 5000); 
+                setTimeout(() => {
+                    header.style.display = 'flex'; 
+                }, 5200); 
+
+            });
+        });
+    </script>
+</body>
+
+</html>
