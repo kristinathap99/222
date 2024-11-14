@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiztacular Showdown</title>
+    <style>
+        body {
+            background: #001e4d;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .container {
+            background: #002b6b;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #ffcc00;
+            font-size: 2.5em;
+        }
+        p {
+            color: #d0d0d0;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background: #18a3f3;
+            border: none;
+            color: white;
+            padding: 15px;
+            margin: 10px 0;
+            width: 100%; /* Make button full width */
+            font-size: 1.2em; /* Increase font size */
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0d6efd;
+        }
+        .correct {
+            background-color: #4CAF50;
+        }
+        .incorrect {
+            background-color: #F44336;
+        }
+        #timer, #progress {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        #progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #555;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        #progress-bar-filled {
+            height: 100%;
+            width: 0;
+            background-color: #4CAF50;
+            border-radius: 10px;
+        }
+        .hidden {
+            display: none;
+        }
+        .flashing {
+            background-color: #F44336;
+            color: white;
+        }
+        .category-select {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="welcome-page">
+        <h1>Welcome to the Quiztacular Showdown!</h1>
+        <p>Ready to take on the challenge? This quiz will test your knowledge in various fun and unexpected ways. Click below to start!</p>
+        <div class="category-select">
+            <label for="category">Select Category:</label>
+            <select id="category">
+                <option value="geography">Geography</option>
+                <option value="science">Science</option>
+                <option value="literature">Literature</option>
+            </select>
+        </div>
+        <button onclick="startQuiz()" class="btn">Start Quiz</button>
+    </div>
+
+    <div class="container hidden" id="quiz-page">
+        <h1>Dark Blue Quiz</h1>
+        <h2 id="question"></h2>
+        <div id="answer-buttons" class="btn-container"></div>
+        <button id="next-btn" class="btn" style="display: none;">Next</button>
+        <div id="timer"></div>
+        <div id="progress"></div>
+        <div id="progress-bar">
+            <div id="progress-bar-filled"></div>
+        </div>
+    </div>
+
+    <div class="container hidden" id="score-page">
+        <h1>Congratulations on Completing the Quiz!</h1>
+        <p>Here’s your result:</p>
+        <div class="score" id="score-display"></div>
+        <p id="message"></p>
+        <button onclick="replayQuiz()" class="btn">Play Again</button>
+        <button onclick="showWelcomePage()" class="btn">Back to Welcome Page</button>
+    </div>
+
+    <script>
+        const questions = {
+            geography: [
+                { question: "What is the capital city of China?", answers: [{ text: "Kathmandu", correct: false }, { text: "Beijing", correct: true }, { text: "Hong Kong", correct: false }, { text: "New Delhi", correct: false }] },
+                { question: "Which country has the largest population?", answers: [{ text: "China", correct: true }, { text: "India", correct: false }, { text: "USA", correct: false }, { text: "Indonesia", correct: false }] },
+                { question: "What is the capital city of Egypt?", answers: [{ text: "Cairo", correct: true }, { text: "Alexandria", correct: false }, { text: "Giza", correct: false }, { text: "Luxor", correct: false }] }
+            ],
+            science: [
+                { question: "What is the smallest planet in our solar system?", answers: [{ text: "Mercury", correct: true }, { text: "Venus", correct: false }, { text: "Mars", correct: false }, { text: "Neptune", correct: false }] },
+                { question: "What is the chemical symbol for water?", answers: [{ text: "H2O", correct: true }, { text: "CO2", correct: false }, { text: "O2", correct: false }, { text: "H2", correct: false }] }
+            ],
+            literature: [
+                { question: "Who wrote the play 'Romeo and Juliet'?", answers: [{ text: "William Shakespeare", correct: true }, { text: "Charles Dickens", correct: false }, { text: "George Orwell", correct: false }, { text: "Mark Twain", correct: false }] },
+                { question: "Who wrote 'Pride and Prejudice'?", answers: [{ text: "Jane Austen", correct: true }, { text: "Emily Brontë", correct: false }, { text: "Charles Dickens", correct: false }, { text: "F. Scott Fitzgerald", correct: false }] }
+            ]
+        };
+
+        const welcomePage = document.getElementById('welcome-page');
+        const quizPage = document.getElementById('quiz-page');
+        const scorePage = document.getElementById('score-page');
+        const questionElement = document.getElementById('question');
+        const answerButtons = document.getElementById('answer-buttons');
+        const nextButton = document.getElementById('next-btn');
+        const timerElement = document.getElementById('timer');
+        const progressElement = document.getElementById('progress');
+        const progressBar = document.getElementById('progress-bar-filled');
+        const scoreDisplay = document.getElementById('score-display');
+        const message = document.getElementById('message');
+        const categorySelect = document.getElementById('category');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer;
+        let selectedCategory = 'geography';
+        let currentQuestions = [];
+
+        function showWelcomePage() {
+            scorePage.classList.add('hidden');
+            welcomePage.classList.remove('hidden');
+        }
+
+        function startQuiz() {
+            selectedCategory = categorySelect.value;
+            currentQuestions = questions[selectedCategory];
+            welcomePage.classList.add('hidden');
+            quizPage.classList.remove('hidden');
+            currentQuestionIndex = 0;
+            score = 0;
+            nextButton.innerText = 'Next';
+            nextButton.style.display = 'none';
+            showQuestion(currentQuestions[currentQuestionIndex]);
+            startTimer();
+        }
+
+        function showQuestion(question) {
+            questionElement.innerText = question.question;
+            answerButtons.innerHTML = '';
+            question.answers.forEach(answer => {
+                const button = document.createElement('button');
+                button.innerText = answer.text;
+                button.classList.add('btn');
+                button.dataset.correct = answer.correct;
+                button.addEventListener('click', selectAnswer);
+                answerButtons.appendChild(button);
+            });
+            progressElement.innerText = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+            updateProgressBar();
+        }
+
+        function selectAnswer(e) {
+            const selectedButton = e.target;
+            const correct = selectedButton.dataset.correct === 'true';
+            const sound = new Audio(correct ? 'correct-answer.mp3' : 'incorrect-answer.mp3');
+            sound.play();
+
+            if (correct) {
+                score++;
+                selectedButton.classList.add('correct');
+            } else {
+                selectedButton.classList.add('incorrect');
+                Array.from(answerButtons.children).forEach(button => {
+                    if (button.dataset.correct === 'true') {
+                        button.classList.add('correct');
+                    }
+                });
+            }
+
+            Array.from(answerButtons.children).forEach(button => {
+                button.disabled = true;
+            });
+
+            nextButton.style.display = 'block';
+        }
+
+        nextButton.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestions.length) {
+                showQuestion(currentQuestions[currentQuestionIndex]);
+            } else {
+                showScore();
+            }
+            resetTimer();
+        });
+
+        function showScore() {
+            quizPage.classList.add('hidden');
+            scorePage.classList.remove('hidden');
+            scoreDisplay.textContent = `Score: ${score} / ${currentQuestions.length}`;
+
+            if (score === currentQuestions.length) {
+                message.textContent = "Amazing! You're a Quiztacular genius!";
+            } else if (score >= currentQuestions.length * 0.7) {
+                message.textContent = "Great job! You did really well!";
+            } else {
+                message.textContent = "Nice try! You can always try again and improve!";
+            }
+
+            localStorage.setItem('bestScore', score);
+        }
+
+        function updateProgressBar() {
+            const progress = (currentQuestionIndex / currentQuestions.length) * 100;
+            progressBar.style.width = progress + '%';
+        }
+
+        function startTimer() {
+            let time = 15;
+            timerElement.innerText = `Time: ${time}s`;
+            timer = setInterval(() => {
+                time--;
+                timerElement.innerText = `Time: ${time}s`;
+
+                if (time <= 5) {
+                    timerElement.classList.add('flashing');
+                } else {
+                    timerElement.classList.remove('flashing');
+                }
+
+                if (time <= 0) {
+                    clearInterval(timer);
+                    nextButton.style.display = 'block';
+                    Array.from(answerButtons.children).forEach(button => {
+                        button.disabled = true;
+                    });
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            startTimer();
+        }
+
+        function replayQuiz() {
+            scorePage.classList.add('hidden');
+            startQuiz();
+        }
+    </script>
+</body>
+</html>
