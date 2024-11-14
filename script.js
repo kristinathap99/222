@@ -1,4 +1,4 @@
-// Questions array  
+ 
 const questions = [  
   {  
       question: "What is the capital city of China ?",  
@@ -48,15 +48,14 @@ const questions = [
    
 ];  
 
-// DOM elements  
+ 
 const questionElement = document.getElementById('question');  
 const answerButtons = document.getElementById('answer-buttons');  
 const nextButton = document.getElementById('next-btn');  
 
 let currentQuestionIndex = 0;  
 let score = 0;  
-
-// Start quiz function  
+ 
 function startQuiz() {  
   currentQuestionIndex = 0;  
   score = 0;  
@@ -64,10 +63,10 @@ function startQuiz() {
   showQuestion(questions[currentQuestionIndex]);  
 }  
 
-// Show question function  
+
 function showQuestion(question) {  
   questionElement.innerText = question.question;  
-  answerButtons.innerHTML = ''; // Clear previous answers  
+  answerButtons.innerHTML = '';  
   question.answers.forEach(answer => {  
       const button = document.createElement('button');  
       button.innerText = answer.text;  
@@ -78,7 +77,7 @@ function showQuestion(question) {
   });  
 }  
 
-// Select answer function  
+
 function selectAnswer(e) {  
   const selectedButton = e.target;  
   const correct = selectedButton.dataset.correct === 'true';  
@@ -88,7 +87,7 @@ function selectAnswer(e) {
       selectedButton.classList.add('correct');  
   } else {  
       selectedButton.classList.add('incorrect');  
-      // Highlight correct answer  
+  
       Array.from(answerButtons.children).forEach(button => {  
           if (button.dataset.correct === 'true') {  
               button.classList.add('correct');  
@@ -96,15 +95,13 @@ function selectAnswer(e) {
       });  
   }  
 
-  // Disable all buttons after selection  
   Array.from(answerButtons.children).forEach(button => {  
       button.disabled = true;  
   });  
 
-  nextButton.style.display = 'block'; // Show next button  
+  nextButton.style.display = 'block'; 
 }  
 
-// Next button function  
 nextButton.addEventListener('click', () => {  
   currentQuestionIndex++;  
   if (currentQuestionIndex < questions.length) {  
@@ -114,7 +111,7 @@ nextButton.addEventListener('click', () => {
   }  
 });  
 
-// Show score function  
+
 function showScore() {  
   questionElement.innerText = `You scored ${score} out of ${questions.length}`;  
   nextButton.innerText = 'Play Again';  
@@ -122,5 +119,5 @@ function showScore() {
   nextButton.addEventListener('click', startQuiz);  
 }  
 
-// Start the quiz  
+  
 startQuiz();
