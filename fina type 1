@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Quiz</title>
+    <style>
+        body {
+            background: #001e4d;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .quiz-container {
+            background: #002b6b;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #18a3f3;
+        }
+        .btn {
+            background: #18a3f3;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0d6efd;
+        }
+        .correct {
+            background-color: #4CAF50;
+        }
+        .incorrect {
+            background-color: #F44336;
+        }
+        #timer {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        #progress {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1>Dark Blue Quiz</h1>
+        <button id="start-btn" class="btn">Start Quiz</button>
+        <h2 id="question" style="display: none;"></h2>
+        <div id="answer-buttons" class="btn-container" style="display: none;"></div>
+        <button id="next-btn" class="btn" style="display: none;">Next</button>
+        <div id="timer" style="display: none;"></div>
+        <div id="progress" style="display: none;"></div>
+    </div>
+    <script>
+        const questions = [  
+          {  
+              question: "What is the capital city of China?",  
+              answers: [  
+                  { text: "Kathmandu", correct: false },  
+                  { text: "Beijing", correct: true },  
+                  { text: "Hong Kong", correct: false },  
+                  { text: "New Delhi", correct: false }  
+              ]  
+          },  
+          {  
+              question: "What is the capital city of Canada?",  
+              answers: [  
+                  { text: "Ottawa", correct: true },  
+                  { text: "Toronto", correct: false },  
+                  { text: "Montreal", correct: false },  
+                  { text: "Sydney", correct: false }  
+              ]  
+          },
+          {  
+                question: "What is the longest river in the world?",  
+                answers: [  
+                    { text: "Amazon", correct:false  },  
+                    { text: "Nile", correct: true },  
+                    { text: "Congo", correct: false },  
+                    { text: "Amur", correct: false }  
+                ]  
+            },
+            {  
+                question: "Who discovered gravity?",  
+                answers: [  
+                    { text: "Edmond Halley", correct: false },  
+                    { text: "David Hume", correct: false },  
+                    { text: "Isaac Newton", correct: true },  
+                    { text: "Albert Einstein", correct: false }  
+                ]  
+            },
+            {  
+                question: "What is the tallest mountain in the world?",  
+                answers: [  
+                    { text: "Mt. Everest", correct: true },  
+                    { text: "K2", correct: false },  
+                    { text: "Lhotse", correct: false },  
+                    { text: "Mont Blanc", correct: false }  
+                ]  
+            },
+        ];  
+
+        const startButton = document.getElementById('start-btn');
+        const questionElement = document.getElementById('question');  
+        const answerButtons = document.getElementById('answer-buttons');  
+        const nextButton = document.getElementById('next-btn');
+        const timerElement = document.getElementById('timer');
+        const progressElement = document.getElementById('progress');
+
+        let currentQuestionIndex = 0;  
+        let score = 0;  
+        let timer;  
+
+        startButton.addEventListener('click', startQuiz);
+
+        function startQuiz() {  
+          startButton.style.display = 'none';
+          currentQuestionIndex = 0;  
+          score = 0;  
+          nextButton.innerText = 'Next';
+          nextButton.style.display = 'none';  
+          questionElement.style.display = 'block';
+          answerButtons.style.display = 'block';
+          timerElement.style.display = 'block';
+          progressElement.style.display = 'block';
+          showQuestion(questions[currentQuestionIndex]);  
+          startTimer();  
+        }  
+
+        function showQuestion(question) {  
+          questionElement.innerText = question.question;  
+          answerButtons.innerHTML = '';  
+          question.answers.forEach(answer => {  
+              const button = document.createElement('button');  
+              button.innerText = answer.text;  
+              button.classList.add('btn');  
+              button.dataset.correct = answer.correct;  
+              button.addEventListener('click', selectAnswer);  
+              answerButtons.appendChild(button);  
+          });  
+          progressElement.innerText = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+        }  
+
+        function selectAnswer(e) {  
+          const selectedButton = e.target;  
+          const correct = selectedButton.dataset.correct === 'true';  
+
+          if (correct) {  
+              score++;  
+              selectedButton.classList.add('correct');  
+          } else {  
+              selectedButton.classList.add('incorrect');  
+
+              Array.from(answerButtons.children).forEach(button => {  
+                  if (button.dataset.correct === 'true') {  
+                      button.classList.add('correct');  
+                  }  
+              });  
+          }  
+
+          Array.from(answerButtons.children).forEach(button => {  
+              button.disabled = true;  
+          });  
+
+          nextButton.style.display = 'block'; 
+        }  
+
+        nextButton.addEventListener('click', () => {  
+          currentQuestionIndex++;  
+          if (currentQuestionIndex < questions.length) {  
+              showQuestion(questions[currentQuestionIndex]);  
+          } else {  
+              showScore();  
+          }  
+          resetTimer();  
+        });  
+
+        function showScore() {  
+          questionElement.innerText = `You scored ${score} out of ${questions.length}`;  
+          nextButton.innerText = 'Play Again';  
+          nextButton.style.display = 'block';  
+          nextButton.addEventListener('click', startQuiz);  
+        }  
+
+        function startTimer() {
+          let time = 30; // 30 seconds for each question
+          timerElement.innerText = `Time: ${time}s`;
+          timer = setInterval(() => {
+            time--;
+            timerElement.innerText = `Time: ${time}s`;
+            if (time <= 0) {
+              clearInterval(timer);
+              nextButton.style.display = 'block';
+              Array.from(answerButtons.children).forEach(button => {
+                  button.disabled = true;
+              });
+            }
+          }, 1000);
+        }
+
+        function resetTimer() {
+          clearInterval(timer);
+          startTimer();
+        }
+
+        startQuiz();
+    </script>
+</body>
+</html>
