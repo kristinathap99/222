@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Quiz App by Team Everest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f2f5;
+            color: #333;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .quiz-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 900px;
+            width: 100%;
+        }
+        
+        .quiz-card {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .quiz-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        
+        .quiz-card h2 {
+            font-size: 1.5rem;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+        
+        .quiz-card p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .random-description {
+            margin-top: 40px;
+            padding: 20px;
+            max-width: 700px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #444;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .quiz-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Simple Quiz App by Team Everest</h1>
+    <div class="quiz-container">
+        <div class="quiz-card" onclick="navigateToQuiz('sports')">
+            <h2>Sports</h2>
+            <p>Challenge yourself with questions about popular sports, athletes, and records from around the world!</p>
+        </div>
+        <div class="quiz-card" onclick="navigateToQuiz('history')">
+            <h2>History</h2>
+            <p>Test your knowledge of historical events, famous figures, and world-changing moments.</p>
+        </div>
+        <div class="quiz-card" onclick="navigateToQuiz('geography')">
+            <h2>Geography</h2>
+            <p>Explore the globe with questions about countries, capitals, landmarks, and more.</p>
+        </div>
+        <div class="quiz-card" onclick="navigateToQuiz('general-knowledge')">
+            <h2>General Knowledge</h2>
+            <p>From pop culture to everyday facts, test how much you really know about the world!</p>
+        </div>
+        <div class="quiz-card" onclick="navigateToQuiz('miscellaneous')">
+            <h2>Miscellaneous</h2>
+            <p>Dive into a variety of random topics, from pop culture to obscure facts and everything in between.</p>
+        </div>
+    </div>
+
+    <div class="random-description" id="randomDescription">
+        <!-- This area will display a random description on page load -->
+    </div>
+
+    <script>
+        // JavaScript function to handle quiz navigation
+        function navigateToQuiz(topic) {
+            alert(`Navigating to ${topic} quiz!`); // Placeholder for navigation
+            // Replace this with actual navigation code, e.g.:
+            // window.location.href = `/${topic}-quiz`;
+        }
+
+        // Random description array
+        const descriptions = [
+            "Expand your knowledge with quizzes on a wide range of topics!",
+            "Test yourself and learn something new in every quiz!",
+            "Challenge your brain and have fun with these interactive quizzes!",
+            "Prepare to explore and engage with fascinating facts and questions!",
+            "Knowledge awaits! Discover your strengths and learn new things."
+        ];
+
+        // Display a random description on page load
+        document.getElementById("randomDescription").textContent = 
+            descriptions[Math.floor(Math.random() * descriptions.length)];
+    </script>
+
+</body>
+</html>
+
+
+
+
+
